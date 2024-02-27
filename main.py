@@ -9,19 +9,20 @@ bus_list = []
 
 def add_route(origin, destin, hours, minutes, bus_type, original_time_table,
               start_time_increment, time_table_increment, station_num, start_range, end_range):
+    copy_time_table = original_time_table
     for i in range(start_range, end_range + 1):
         minutes += start_time_increment[i - start_range]
         hours += minutes // 60
         minutes %= 60
-        start_time = f'{hours:02}:{minutes:02}'
-        original_time_table[-1] += time_table_increment[i - start_range]
+        copy_time_table[-1] = copy_time_table[-1] + time_table_increment[i - start_range]
+        print(copy_time_table)
         data = {
             "id": str(i),
             "from": origin,
             "to": destin,
             "startHour": hours,
             "startMin": minutes,
-            "timeTable": original_time_table,
+            "timeTable": copy_time_table.copy(),
             "type": bus_type,
             "stationNum": station_num
         }
@@ -30,21 +31,21 @@ def add_route(origin, destin, hours, minutes, bus_type, original_time_table,
 
 add_route("东区", "高新", 6, 50, "weekday",
     [10, 0, 40],
-    [0, 70, 280, 110, 235, 175, 45],
+    [0, 70, 290, 100, 240, 170, 45],
     [0, 10, -10, 5, 5, -20, 15],
     4, 1, 7
 )
 
 add_route("高新", "东区", 6, 40, "weekday",
     [5, 0, 40],
-    [0, 80, 95, 185, 90, 235, 220],
-    [0, 5, -5, 5, 5, 0, -10],
+    [0, 80, 95, 195, 100, 240, 215],
+    [0, 5, -5, 0, 10, 0, -10],
     4, 8, 14
 )
 
 add_route("东区", "高新", 7, 00, "weekend",
     [10, 0, 40],
-    [0, 340, 350, 200],
+    [0, 350, 340, 200],
     [0, 0, 0, 10],
     4, 15, 18
 )
@@ -141,7 +142,7 @@ add_route("南区", "西区", 7, 10, "weekday",
 )
 
 bus_data = {
-    "update_time": "20230920",
+    "update_time": "20231120",
     "buses": bus_list
 }
 
